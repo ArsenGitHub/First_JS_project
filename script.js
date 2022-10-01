@@ -34,30 +34,18 @@ document.querySelector('.check').addEventListener('click', () => {
       highscore = score;
       document.querySelector('.label-highscore span').textContent = highscore;
     }
-
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
 
-    // Если ввел номер больше, чем отгадываемое число
-  } else if (guess > secretNumber) {
+    // Если ввел номер больше или меньше(не равный отгадываемому числу), чем отгадываемое число
+  } else if (guess !== secretNumber) {
     if (score > 1) {
-      displayMessage('Too high...');
+      displayMessage(guess > secretNumber ? 'Too high...' : 'Too low...');
       score = score - 1;
-      document.querySelector('.score').textContent = score;
+      displayScore(score);
     } else {
       displayMessage('You lose...');
-      document.querySelector('.score').textContent = 0;
-    }
-
-    // Если ввел номер меньше, чем отгадываемое число
-  } else if (guess < secretNumber) {
-    if (score > 1) {
-      displayMessage('Too low...');
-      score = score - 1;
-      document.querySelector('.score').textContent = score;
-    } else {
-      displayMessage('You lose...');
-      document.querySelector('.score').textContent = 0;
+      displayScore(0);
     }
   }
 });
@@ -66,11 +54,10 @@ document.querySelector('.check').addEventListener('click', () => {
 document.querySelector('.again').addEventListener('click', () => {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
-  document.querySelector('.score').textContent = score;
+  displayScore(score);
   displayMessage('Start guessing...');
   document.querySelector('.number').textContent = '?';
   document.querySelector('.guess').value = '';
-
   document.querySelector('body').style.backgroundColor = '#222';
   document.querySelector('.number').style.width = '15rem';
 });
