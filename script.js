@@ -1,7 +1,6 @@
 'use strict';
 
-// Обьявляем число, с которым будет сравниваться число введеное в input. Она обьявляется за функцией
-
+// Обьявляем число, с которым будет сравниваться число введеное в input.
 let secretNumber = Math.trunc(Math.random() * 20) + 1;
 
 // Каждый раз, когда неправильно угадываем число, то число в .score должно уменьшаться на 1. Для этого обьявим переменную, которая будет уменьшаться.
@@ -10,16 +9,26 @@ let score = 20;
 // Переменная для подсчета рекорда
 let highscore = 0;
 
+// Функция для отображения "сообщении-подсказок"
+const displayMessage = (message) => {
+  document.querySelector('.message').textContent = message;
+};
+
+// Функция для отображения "счета"
+const displayScore = (score) => {
+  document.querySelector('.score').textContent = score;
+};
+
 document.querySelector('.check').addEventListener('click', () => {
   const guess = Number(document.querySelector('.guess').value);
 
   // Если инпут пустой
   if (!guess) {
-    document.querySelector('.message').textContent = 'Write a number...';
+    displayMessage('Write a number...');
 
     // Если угадываешь номер правильно
   } else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = 'Correct number...';
+    displayMessage('Correct number...');
     document.querySelector('.number').textContent = secretNumber;
     if (score > highscore) {
       highscore = score;
@@ -32,22 +41,22 @@ document.querySelector('.check').addEventListener('click', () => {
     // Если ввел номер больше, чем отгадываемое число
   } else if (guess > secretNumber) {
     if (score > 1) {
-      document.querySelector('.message').textContent = 'Too high...';
+      displayMessage('Too high...');
       score = score - 1;
       document.querySelector('.score').textContent = score;
     } else {
-      document.querySelector('.message').textContent = 'You lose...';
+      displayMessage('You lose...');
       document.querySelector('.score').textContent = 0;
     }
 
     // Если ввел номер меньше, чем отгадываемое число
   } else if (guess < secretNumber) {
     if (score > 1) {
-      document.querySelector('.message').textContent = 'Too low...';
+      displayMessage('Too low...');
       score = score - 1;
       document.querySelector('.score').textContent = score;
     } else {
-      document.querySelector('.message').textContent = 'You lose...';
+      displayMessage('You lose...');
       document.querySelector('.score').textContent = 0;
     }
   }
@@ -58,7 +67,7 @@ document.querySelector('.again').addEventListener('click', () => {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
   document.querySelector('.score').textContent = score;
-  document.querySelector('.message').textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   document.querySelector('.number').textContent = '?';
   document.querySelector('.guess').value = '';
 
